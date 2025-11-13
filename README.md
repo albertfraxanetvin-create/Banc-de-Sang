@@ -1,2 +1,3 @@
 # Banc-de-Sang
-Pagina web per anima als joves a donar sang!
+Pagina web per animar als joves a donar sang!
+(Simulació)
