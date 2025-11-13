@@ -4,222 +4,199 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Relleu Jove - Dona Sang Catalunya</title>
-  <meta name="description" content="Campanya per impulsar la donació de sang entre joves a Catalunya. Informa't, trenca mites i salva vides amb un sol gest." />
-
-  <!-- Tailwind (per prototip / demo) -->
+  <meta name="description" content="Campanya per impulsar la donació de sang entre joves a Catalunya." />
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Flowbite (CSS i JS) -->
   <link rel="stylesheet" href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" />
-  <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.min.js" defer></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
   <style>
-    :root { --brand: #e11d48; --brand-light: #ffe8f0; }
     html { scroll-behavior: smooth; }
-
-    /* Fade-in sections */
-    .fade-in { opacity: 0; transform: translateY(10px); transition: all 0.7s ease; }
-    .fade-in.show { opacity: 1; transform: translateY(0); }
-
-    /* Hover card */
     .hover-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-
-    /* Pulsar CTA flotant */
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 0 0 rgba(225,29,72,0.5); }
-      70% { box-shadow: 0 0 0 16px rgba(225,29,72,0); }
-      100% { box-shadow: 0 0 0 0 rgba(225,29,72,0); }
-    }
-    #cta-float { animation: pulseGlow 2s infinite; }
-
-    /* Modal anim */
-    .modal-enter { opacity: 0; transform: translateY(20px); transition: all 0.25s ease; }
-    .modal-enter.show { opacity: 1; transform: translateY(0); }
-
-    /* Toast transition */
-    #toast-success { transition: opacity .3s ease; }
-
-    /* Make session info display correctly */
-    #session-info.hidden { display: none; }
-    #session-info { display: flex; align-items: center; gap: .5rem; }
-
-    /* error border */
-    .border-error { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.06); }
   </style>
 </head>
-
 <body class="antialiased text-slate-800 bg-white">
 
-  <!-- TOAST -->
-  <div id="toast-success" class="hidden fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-xl shadow-lg text-sm z-[9999]">
-    Sessió iniciada amb èxit!
-  </div>
-
-  <!-- CTA flotant -->
-  <button id="cta-float" class="cta-btn fixed bottom-6 right-6 z-50 bg-red-600 text-white w-14 h-14 rounded-full text-3xl flex items-center justify-center shadow-xl cursor-pointer"
-    data-modal-target="signupModal" data-modal-toggle="signupModal" aria-label="Apunta't">✚</button>
-
-  <!-- NAV -->
-  <nav class="bg-white/80 backdrop-blur sticky top-0 z-50 shadow-sm border-b border-red-100 fade-in">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="#hero" class="flex items-center gap-2">
-        <span class="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-red-700 text-white flex items-center justify-center font-bold">✚</span>
-        <div class="hidden sm:block leading-tight">
-          <div class="text-sm font-semibold">Relleu Jove</div>
-          <div class="text-xs text-slate-500">Dona sang · Catalunya</div>
+  <!-- NAVBAR -->
+  <nav class="bg-white/90 backdrop-blur sticky top-0 z-50 border-b border-red-100">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+        <a href="#hero" class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-red-700 text-white flex items-center justify-center font-bold">✚</span>
+          <div class="hidden sm:block">
+            <div class="text-sm font-semibold">Relleu Jove</div>
+            <div class="text-xs text-slate-500">Dona sang · Catalunya</div>
+          </div>
+        </a>
+        <div class="hidden md:flex items-center gap-6 text-sm">
+          <a href="#problem" class="hover:text-red-600">La problemàtica</a>
+          <a href="#proc" class="hover:text-red-600">Com ho fas</a>
+          <a href="#benef" class="hover:text-red-600">Mites i Beneficis</a>
+          <a href="#testi" class="hover:text-red-600">Testimonis</a>
         </div>
-      </a>
-
-      <div class="hidden md:flex items-center gap-6 text-sm">
-        <a href="#problem" class="hover:text-red-600">La problemàtica</a>
-        <a href="#proc" class="hover:text-red-600">Com ho fas</a>
-        <a href="#benef" class="hover:text-red-600">Mites i Beneficis</a>
-        <a href="#testi" class="hover:text-red-600">Testimonis</a>
-      </div>
-
-      <!-- Botó "Fes-te donant" -->
-      <button id="donate-btn" data-modal-target="signupModal" data-modal-toggle="signupModal"
-        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm shadow">
-        Fes-te donant
-      </button>
-
-      <!-- Avatar + sessió -->
-      <div class="flex items-center gap-3">
-        <div id="avatar" class="hidden w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-bold shadow"></div>
-
-        <span id="session-info" class="hidden text-sm items-center gap-3">
-          <span id="session-name"></span>
-          <button id="logout-btn" class="text-red-600 underline hover:text-red-700">Tancar sessió</button>
-        </span>
+        <button data-modal-target="signupModal" data-modal-toggle="signupModal" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm shadow">Fes-te donant</button>
       </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <header id="hero" class="bg-gradient-to-b from-white via-red-50/40 to-white py-20 lg:py-28 fade-in">
+  <header id="hero" class="bg-gradient-to-b from-white via-red-50/50 to-white py-20 lg:py-28">
     <div class="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-12">
-
       <div class="w-full lg:w-1/2">
-        <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">
-          Sigues el relleu. <span class="text-red-600">Dona sang</span> i salva vides.
-        </h1>
-        <p class="mt-6 text-lg text-slate-600">
-          Catalunya necessita donants joves. El futur de les reserves de sang depèn de tu.
-        </p>
-
-        <div class="mt-8 flex gap-4 items-center">
-          <button data-modal-target="signupModal" data-modal-toggle="signupModal"
-            class="cta-btn px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full shadow text-sm font-semibold">
-            Apunta’t ara
-          </button>
+        <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Sigues el relleu. <span class="text-red-600">Dona sang</span> i salva vides.</h1>
+        <p class="mt-6 text-lg text-slate-600">Catalunya necessita donants joves. El futur de les reserves depèn de tu.</p>
+        <div class="mt-8 flex gap-4">
+          <button data-modal-target="signupModal" data-modal-toggle="signupModal" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full shadow text-sm font-semibold">Apunta’t ara</button>
           <a href="#problem" class="underline text-sm text-slate-700">Per què és urgent?</a>
         </div>
       </div>
-
       <div class="w-full lg:w-1/2">
-        <div class="rounded-3xl shadow-xl bg-white p-4 hover-card">
-          <img src="hero.png" loading="lazy" alt="Il·lustració donació de sang" class="rounded-2xl w-full h-80 object-cover" />
-        </div>
+        <div class="rounded-3xl shadow-xl bg-white p-4 hover-card"><img src="hero.png" class="rounded-2xl w-full h-80 object-cover" /></div>
       </div>
-
     </div>
   </header>
 
   <!-- PROBLEMÀTICA -->
-  <section id="problem" class="max-w-6xl mx-auto px-4 py-16 fade-in">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-
+  <section id="problem" class="max-w-6xl mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
       <div>
         <h2 class="text-3xl font-bold">La problemàtica</h2>
-        <p class="mt-4 text-slate-600 leading-relaxed">
-          La mitjana d’edat dels donants està pujant. Les necessitats hospitalàries
-          augmenten i falten joves que garanteixin el relleu generacional.
-        </p>
-
-        <ul class="mt-6 space-y-4">
-          <li class="flex gap-3">
-            <span class="text-red-600 mt-1">●</span>
-            <span><strong>Més cirurgies, menys donants:</strong> la demanda creix constantment.</span>
-          </li>
-
-          <li class="flex gap-3">
-            <span class="text-red-600 mt-1">●</span>
-            <span><strong>Relleu insuficient:</strong> la franja 18–35 és la menys representada.</span>
-          </li>
+        <p class="mt-4 text-slate-600">La mitjana d’edat dels donants puja i cal un relleu urgent.</p>
+        <ul class="mt-6 space-y-4 text-sm">
+          <li class="flex gap-3"><span class="text-red-600">●</span> Més cirurgies, menys donants.</li>
+          <li class="flex gap-3"><span class="text-red-600">●</span> Relleu insuficient a la franja 18–35.</li>
         </ul>
       </div>
-
-      <div class="bg-white p-6 rounded-2xl shadow hover-card">
-        <h3 class="font-semibold text-lg">Dades importants</h3>
-
-        <div class="grid grid-cols-2 gap-4 mt-4">
-          <div class="p-4 bg-red-50 rounded-xl text-center">
-            <div class="text-3xl font-extrabold text-red-600">+60%</div>
-            <p class="text-xs text-slate-500 mt-1">Augment demanda hospitalària</p>
-          </div>
-
-          <div class="p-4 bg-red-50 rounded-xl text-center">
-            <div class="text-3xl font-extrabold text-red-600">28%</div>
-            <p class="text-xs text-slate-500 mt-1">Donants joves (18–35)</p>
-          </div>
+      <div class="space-y-4">
+        <div class="bg-white p-4 rounded-2xl shadow hover-card flex justify-between items-center">
+          <div><p class="text-3xl font-extrabold text-red-600">+60%</p><p class="text-xs text-slate-500">Augment demanda hospitalària</p></div><div class="text-3xl">🩺</div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow hover-card flex justify-between items-center">
+          <div><p class="text-3xl font-extrabold text-red-600">28%</p><p class="text-xs text-slate-500">Donants joves</p></div><div class="text-3xl">👥</div>
         </div>
       </div>
-
     </div>
   </section>
 
   <!-- PROCÉS -->
-  <section id="proc" class="bg-red-50/40 py-16 fade-in">
-    <div class="max-w-6xl mx-auto px-4">
-
-      <h2 class="text-3xl font-bold text-center">Com és el procés</h2>
-      <p class="text-center text-slate-600 mt-2">Ràpid, segur i senzill.</p>
-
-      <div class="mt-10 flex justify-center hover-card">
-        <img src="proces.png" loading="lazy" alt="Procés de donació" class="w-full max-w-4xl rounded-xl shadow" />
+  <section id="proc" class="bg-red-50/40 py-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold">Com és el procés</h2>
+      <p class="text-slate-600 mt-2">Ràpid, segur i senzill.</p>
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl shadow hover-card"><div class="text-4xl">📝</div><h3 class="font-semibold mt-3">Registre</h3></div>
+        <div class="bg-white p-6 rounded-2xl shadow hover-card"><div class="text-4xl">🩸</div><h3 class="font-semibold mt-3">Extracció</h3></div>
+        <div class="bg-white p-6 rounded-2xl shadow hover-card"><div class="text-4xl">☕</div><h3 class="font-semibold mt-3">Recuperació</h3></div>
       </div>
-
     </div>
   </section>
 
-  <!-- BENEFICIS -->
-  <section id="benef" class="max-w-6xl mx-auto px-4 py-16 fade-in">
+  <!-- MITES / BENEFICIS - ACCORDION -->
+  <section id="benef" class="max-w-6xl mx-auto px-4 py-16">
     <h2 class="text-3xl font-bold text-center">Mites i Beneficis</h2>
     <p class="text-center text-slate-600 mt-2">Resolem dubtes i destaquem allò positiu.</p>
+    <div class="mt-10 max-w-3xl mx-auto" id="accordion" data-accordion="collapse">
 
-    <div class="mt-10 flex justify-center hover-card">
-      <img src="beneficis.png" loading="lazy" alt="Mites i beneficis donació de sang" class="w-full max-w-4xl rounded-xl shadow" />
+      <h2>
+        <button class="flex justify-between w-full p-4 border" data-accordion-target="#m1">
+          <span>Mite: Donar sang fa mal</span><span>▼</span>
+        </button>
+      </h2>
+      <div id="m1" class="hidden p-4 border border-t-0">Només una punxadeta.</div>
+
+      <h2>
+        <button class="flex justify-between w-full p-4 border" data-accordion-target="#m2">
+          <span>Mite: No puc donar si he tingut COVID</span><span>▼</span>
+        </button>
+      </h2>
+      <div id="m2" class="hidden p-4 border border-t-0">Sí que pots, si estàs recuperat.</div>
+
+      <h2>
+        <button class="flex justify-between w-full p-4 border" data-accordion-target="#m3">
+          <span>Benefici: Pots salvar 3 vides</span><span>▼</span>
+        </button>
+      </h2>
+      <div id="m3" class="hidden p-4 border border-t-0">Cada donació ajuda 3 pacients.</div>
+
     </div>
   </section>
 
-  <!-- TESTIMONIS -->
-  <section id="testi" class="bg-red-50/40 py-16 fade-in">
+  <!-- TESTIMONIS - CARROUSEL AUTOPLAY -->
+  <section id="testi" class="bg-red-50/40 py-16">
     <div class="max-w-6xl mx-auto px-4">
       <h2 class="text-3xl font-bold text-center">Testimonis</h2>
-      <p class="text-center text-slate-600 mt-2">Joves que ja donen. Persones reals.</p>
+      <p class="text-center text-slate-600 mt-2">Joves que ja donen.</p>
 
-      <div class="mt-10 flex justify-center hover-card">
-        <img src="testimonis.png" loading="lazy" alt="Testimonis de donants" class="w-full max-w-4xl rounded-xl shadow" />
+      <div class="mt-10">
+        <div id="default-carousel" class="relative w-full" data-carousel="slide" data-carousel-interval="3000">
+
+          <div class="relative h-80 overflow-hidden rounded-lg md:h-96">
+
+            <!-- ITEM 1 ACTIVE -->
+            <div class="duration-700 ease-in-out" data-carousel-item="active">
+              <div class="flex flex-col md:flex-row h-full items-center justify-center gap-6 p-6">
+                <img src="testimoni1.jpg" class="w-40 h-40 object-cover rounded-full shadow-md border-4 border-white" />
+                <div class="bg-white p-6 rounded-2xl shadow-lg max-w-lg">
+                  <p class="italic">“Vaig decidir donar sang després que una amiga necessités una transfusió urgent.”</p>
+                  <p class="font-semibold mt-4">Anna P. · 19 anys</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ITEM 2 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+              <div class="flex flex-col md:flex-row h-full items-center justify-center gap-6 p-6">
+                <img src="testimoni2.jpg" class="w-40 h-40 object-cover rounded-full shadow-md border-4 border-white" />
+                <div class="bg-white p-6 rounded-2xl shadow-lg max-w-lg">
+                  <p class="italic">“Donar sang és rapidíssim i et tracten molt bé.”</p>
+                  <p class="font-semibold mt-4">Marc L. · 24 anys</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ITEM 3 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+              <div class="flex flex-col md:flex-row h-full items-center justify-center gap-6 p-6">
+                <img src="testimoni3.jpg" class="w-40 h-40 object-cover rounded-full shadow-md border-4 border-white" />
+                <div class="bg-white p-6 rounded-2xl shadow-lg max-w-lg">
+                  <p class="italic">“Surts amb la sensació d’haver fet quelcom important.”</p>
+                  <p class="font-semibold mt-4">David R. · 20 anys</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- CONTROLS -->
+          <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4" data-carousel-prev>
+            <span class="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-2xl">‹</span>
+          </button>
+
+          <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4" data-carousel-next>
+            <span class="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-2xl">›</span>
+          </button>
+
+        </div>
       </div>
     </div>
   </section>
 
   <!-- CTA FINAL -->
-  <section id="cta-final" class="max-w-6xl mx-auto px-4 py-16 fade-in">
-    <div class="bg-gradient-to-r from-red-600 to-rose-500 text-white p-10 rounded-3xl shadow-lg flex flex-col lg:flex-row items-center justify-between gap-6">
+  <section id="cta-final" class="max-w-6xl mx-auto px-4 py-16">
+    <div class="bg-gradient-to-r from-red-600 to-rose-500 text-white p-10 rounded-3xl shadow-lg flex flex-col lg:flex-row justify-between items-center gap-6">
       <div>
         <h3 class="text-2xl font-bold">Estàs a un clic de fer la diferència</h3>
-        <p class="mt-2">Apunta’t com a donant avui i ajudaràs a construir el relleu que asseguri la salut del futur.</p>
+        <p class="mt-2">Apunta’t com a donant avui mateix.</p>
       </div>
+
       <div class="flex gap-3">
-        <button data-modal-target="signupModal" data-modal-toggle="signupModal" class="cta-btn px-6 py-3 rounded-full bg-white text-red-600 font-semibold shadow hover:scale-105 transition">Apunta’m</button>
+        <button data-modal-target="signupModal" data-modal-toggle="signupModal" class="px-6 py-3 bg-white text-red-600 font-semibold rounded-full shadow hover:scale-105 transition">Apunta’m</button>
         <a href="#proc" class="px-4 py-3 rounded-full border border-white/30">Com funciona</a>
       </div>
+
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="bg-white border-t mt-10 fade-in">
+  <footer class="bg-white border-t mt-10">
     <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
       <p class="text-sm text-slate-500">© 2025 Relleu Jove — Campanya de donació de sang</p>
       <div class="flex gap-4 text-sm">
@@ -229,314 +206,47 @@
     </div>
   </footer>
 
-  <!-- MODAL INSCRIPCIÓ (Flowbite) -->
-  <div id="signupModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-    <div class="relative p-4 w-full max-w-lg h-full md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow modal-content">
-        <button type="button" class="absolute top-3 right-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="signupModal">
-          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-          <span class="sr-only">Tancar</span>
+  <!-- MODAL (mantingut) -->
+  <div id="signupModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 w-full h-full">
+    <div class="relative p-4 w-full max-w-lg mx-auto h-full md:h-auto">
+      <div class="relative bg-white rounded-lg shadow">
+        <button type="button" class="absolute top-3 right-3 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5" data-modal-hide="signupModal">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/></svg>
         </button>
-
-        <div class="px-6 py-6 lg:px-8">
+        <div class="px-6 py-6">
           <h3 class="text-xl font-medium text-gray-900 mb-4">Inscripció ràpida</h3>
-
-          <div id="signup-status" class="hidden p-2 rounded bg-green-50 text-green-700 text-sm mb-2"></div>
-
-          <!-- ************************************************ -->
-          <!-- Formulari Flowbite amb validacions visuals -->
-          <!-- ************************************************ -->
-          <form id="signup-form" class="space-y-6">
-            <!-- NOM -->
+          <form class="space-y-6">
             <div>
-              <label for="fullName" class="block mb-2 text-sm font-medium text-gray-900">Nom complet</label>
-              <div class="relative">
-                <input type="text" id="fullName"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5 peer"
-                  required>
-                <p class="mt-1 text-xs text-red-600 hidden" id="error-name">El nom ha de tenir mínim 3 caràcters.</p>
-              </div>
+              <label class="block mb-2 text-sm font-medium">Nom complet</label>
+              <input type="text" required minlength="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5" />
             </div>
-
-            <!-- EMAIL -->
             <div>
-              <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Correu electrònic</label>
-              <div class="relative">
-                <input type="email" id="email"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5 peer"
-                  placeholder="nom@exemple.com" required>
-                <p class="mt-1 text-xs text-red-600 hidden" id="error-email">Introdueix un correu electrònic vàlid.</p>
-              </div>
+              <label class="block mb-2 text-sm font-medium">Correu electrònic</label>
+              <input type="email" required placeholder="nom@exemple.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5" />
             </div>
-
-            <!-- EDAT + MUNICIPI -->
             <div class="flex gap-4">
               <div class="w-1/2">
-                <label for="age" class="block mb-2 text-sm font-medium text-gray-900">Edat</label>
-                <input type="number" id="age" min="18" max="70"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5"
-                  required>
-                <p class="mt-1 text-xs text-red-600 hidden" id="error-age">L’edat ha d'estar entre 18 i 70 anys.</p>
+                <label class="block mb-2 text-sm font-medium">Edat</label>
+                <input type="number" min="18" max="70" required class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" />
               </div>
-
               <div class="w-1/2">
-                <label for="city" class="block mb-2 text-sm font-medium text-gray-900">Municipi</label>
-                <input type="text" id="city"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5"
-                  required>
-                <p class="mt-1 text-xs text-red-600 hidden" id="error-city">El municipi ha de tenir mínim 2 caràcters.</p>
+                <label class="block mb-2 text-sm font-medium">Municipi</label>
+                <input type="text" required minlength="2" class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" />
               </div>
             </div>
-
-            <!-- CHECKBOX -->
             <div class="flex items-center gap-2">
-              <input id="accept" type="checkbox"
-                class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500">
-              <label for="accept" class="text-sm text-gray-900">Accepto rebre informació sobre punts i horaris.</label>
+              <input type="checkbox" required class="w-4 h-4 text-red-600" />
+              <label class="text-sm">Accepto rebre informació sobre punts i horaris.</label>
             </div>
-            <p class="mt-1 text-xs text-red-600 hidden" id="error-accept">Has d'acceptar la política.</p>
-
-            <!-- BOTONS -->
             <div class="flex gap-3 pt-2">
-              <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition w-full">Enviar</button>
-              <button data-modal-hide="signupModal" type="button" class="px-4 py-2 border rounded-full hover:bg-slate-100 transition w-full">Tancar</button>
+              <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 w-full">Enviar</button>
+              <button data-modal-hide="signupModal" type="button" class="px-4 py-2 border rounded-full hover:bg-slate-100 w-full">Tancar</button>
             </div>
           </form>
-          <!-- ************************************************ -->
-          <!-- Fi formulari -->
-          <!-- ************************************************ -->
-
         </div>
       </div>
     </div>
   </div>
-
-  <!-- SCRIPTS -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Fade-in observer
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-      // Toast
-      function showToast(msg) {
-        const t = document.getElementById("toast-success");
-        t.textContent = msg;
-        t.classList.remove("hidden");
-        t.style.opacity = "1";
-        setTimeout(() => {
-          t.style.opacity = "0";
-          setTimeout(() => t.classList.add("hidden"), 300);
-        }, 2000);
-      }
-
-      // Update UI / session
-      function updateUI() {
-        const users = JSON.parse(localStorage.getItem('rj_users') || '{}');
-        const loggedEmail = localStorage.getItem('rj_logged');
-        const loggedUser = loggedEmail && users[loggedEmail] ? users[loggedEmail] : null;
-
-        const donateBtn = document.getElementById('donate-btn');
-        const ctaBtns = document.querySelectorAll('.cta-btn');
-        const floatBtn = document.getElementById('cta-float');
-        const sessionInfo = document.getElementById('session-info');
-        const sessionName = document.getElementById('session-name');
-        const avatar = document.getElementById('avatar');
-
-        if (loggedUser) {
-          // avatar initials
-          const initials = loggedUser.name.split(' ').map(p => p[0] || '').join('').slice(0,2).toUpperCase();
-          avatar.textContent = initials;
-          avatar.classList.remove('hidden');
-
-          // show session
-          if (sessionInfo) sessionInfo.classList.remove('hidden');
-          if (sessionName) sessionName.textContent = "Hola, " + loggedUser.name + " 👋";
-
-          if (donateBtn) donateBtn.classList.add('hidden');
-          if (floatBtn) floatBtn.classList.add('hidden');
-          ctaBtns.forEach(b => b.classList.add('hidden'));
-        } else {
-          avatar.classList.add('hidden');
-          if (sessionInfo) sessionInfo.classList.add('hidden');
-          if (donateBtn) donateBtn.classList.remove('hidden');
-          if (floatBtn) floatBtn.classList.remove('hidden');
-          ctaBtns.forEach(b => b.classList.remove('hidden'));
-        }
-      }
-
-      // ********** VALIDACIONS VISUALS (Flowbite-style) **********
-      function validateForm() {
-        let valid = true;
-
-        // NOM
-        const name = document.getElementById("fullName");
-        const errName = document.getElementById("error-name");
-        if (!name.value || name.value.trim().length < 3) {
-          name.classList.add("border-error");
-          errName.classList.remove("hidden");
-          valid = false;
-        } else {
-          name.classList.remove("border-error");
-          errName.classList.add("hidden");
-        }
-
-        // EMAIL
-        const email = document.getElementById("email");
-        const errEmail = document.getElementById("error-email");
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email.value || !emailRegex.test(email.value.trim())) {
-          email.classList.add("border-error");
-          errEmail.classList.remove("hidden");
-          valid = false;
-        } else {
-          email.classList.remove("border-error");
-          errEmail.classList.add("hidden");
-        }
-
-        // EDAT
-        const age = document.getElementById("age");
-        const errAge = document.getElementById("error-age");
-        const ageVal = Number(age.value);
-        if (!age.value || ageVal < 18 || ageVal > 70) {
-          age.classList.add("border-error");
-          errAge.classList.remove("hidden");
-          valid = false;
-        } else {
-          age.classList.remove("border-error");
-          errAge.classList.add("hidden");
-        }
-
-        // MUNICIPI
-        const city = document.getElementById("city");
-        const errCity = document.getElementById("error-city");
-        if (!city.value || city.value.trim().length < 2) {
-          city.classList.add("border-error");
-          errCity.classList.remove("hidden");
-          valid = false;
-        } else {
-          city.classList.remove("border-error");
-          errCity.classList.add("hidden");
-        }
-
-        // CHECKBOX
-        const accept = document.getElementById("accept");
-        const errAccept = document.getElementById("error-accept");
-        if (!accept.checked) {
-          errAccept.classList.remove("hidden");
-          valid = false;
-        } else {
-          errAccept.classList.add("hidden");
-        }
-
-        return valid;
-      }
-
-      // remove error on input
-      ['fullName','email','age','city','accept'].forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.addEventListener('input', () => {
-          const err = document.getElementById('error-' + (id === 'fullName' ? 'name' : id));
-          el.classList.remove('border-error');
-          if (err) err.classList.add('hidden');
-        });
-        if (el.type === 'checkbox') {
-          el.addEventListener('change', () => {
-            const err = document.getElementById('error-accept');
-            if (err) err.classList.add('hidden');
-          });
-        }
-      });
-
-      // Handle form submit (simulat) with validation
-      const signupForm = document.getElementById('signup-form');
-      if (signupForm) {
-        signupForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-
-          // validate
-          if (!validateForm()) {
-            return;
-          }
-
-          const name = document.getElementById('fullName').value.trim();
-          const email = document.getElementById('email').value.trim().toLowerCase();
-
-          const statusBox = document.getElementById('signup-status');
-
-          const users = JSON.parse(localStorage.getItem('rj_users') || '{}');
-          let message = "";
-
-          if (users[email]) {
-            message = `Benvingut/da de nou, ${users[email].name}! Sessió iniciada.`;
-          } else {
-            users[email] = { name };
-            message = `Usuari creat! Gràcies per sumar-te al Relleu Jove, ${name}.`;
-          }
-
-          localStorage.setItem('rj_users', JSON.stringify(users));
-          localStorage.setItem('rj_logged', email);
-
-          if (statusBox) { statusBox.textContent = message; statusBox.classList.remove('hidden'); }
-
-          // feedback toast
-          showToast(message);
-
-          // Close modal via Flowbite button inside (simulate click)
-          const hideBtn = document.querySelector('#signupModal [data-modal-hide="signupModal"]');
-          if (hideBtn) hideBtn.click();
-          // fallback hide
-          setTimeout(() => {
-            const modal = document.getElementById('signupModal');
-            if (modal) modal.classList.add('hidden');
-          }, 400);
-
-          signupForm.reset();
-          updateUI();
-        });
-      }
-
-      // Logout
-      const logoutBtn = document.getElementById('logout-btn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          localStorage.removeItem('rj_logged');
-          updateUI();
-        });
-      }
-
-      // Init
-      updateUI();
-    });
-  </script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const openButtons = document.querySelectorAll("[data-modal-target='signupModal'], [data-modal-toggle='signupModal']");
-  const closeButtons = document.querySelectorAll("[data-modal-hide='signupModal']");
-  const modal = document.getElementById("signupModal");
-
-  // Obrir modal
-  openButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      modal.classList.remove("hidden");
-      document.body.classList.add("overflow-hidden");
-    });
-  });
-
-  // Tancar modal
-  closeButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      modal.classList.add("hidden");
-      document.body.classList.remove("overflow-hidden");
-    });
-  });
-});
-</script>
 
 </body>
 </html>
