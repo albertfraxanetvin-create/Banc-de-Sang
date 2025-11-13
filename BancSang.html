@@ -6,36 +6,58 @@
   <title>Relleu Jove - Dona Sang Catalunya</title>
   <meta name="description" content="Campanya per impulsar la donació de sang entre joves a Catalunya. Informa't, trenca mites i salva vides amb un sol gest." />
 
-  <!-- Tailwind -->
+  <!-- Tailwind (per prototip / demo) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Flowbite -->
+  <!-- Flowbite (CSS i JS) -->
   <link rel="stylesheet" href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" />
-  <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.min.js"></script>
+  <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.min.js" defer></script>
 
   <style>
     :root { --brand: #e11d48; --brand-light: #ffe8f0; }
     html { scroll-behavior: smooth; }
 
+    /* Fade-in sections */
     .fade-in { opacity: 0; transform: translateY(10px); transition: all 0.7s ease; }
     .fade-in.show { opacity: 1; transform: translateY(0); }
 
+    /* Hover card */
     .hover-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
 
-    #cta-float {
-      position: fixed; bottom: 18px; right: 18px; z-index: 999;
-      background: #e11d48; color: white; width: 58px; height: 58px;
-      border-radius: 9999px; display: flex; align-items: center; justify-content: center;
-      font-size: 26px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: transform .2s;
+    /* Pulsar CTA flotant */
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(225,29,72,0.5); }
+      70% { box-shadow: 0 0 0 16px rgba(225,29,72,0); }
+      100% { box-shadow: 0 0 0 0 rgba(225,29,72,0); }
     }
-    #cta-float:hover { transform: scale(1.08); }
+    #cta-float { animation: pulseGlow 2s infinite; }
+
+    /* Modal anim */
+    .modal-enter { opacity: 0; transform: translateY(20px); transition: all 0.25s ease; }
+    .modal-enter.show { opacity: 1; transform: translateY(0); }
+
+    /* Toast transition */
+    #toast-success { transition: opacity .3s ease; }
+
+    /* Make session info display correctly */
+    #session-info.hidden { display: none; }
+    #session-info { display: flex; align-items: center; gap: .5rem; }
+
+    /* error border */
+    .border-error { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.06); }
   </style>
 </head>
 
 <body class="antialiased text-slate-800 bg-white">
 
+  <!-- TOAST -->
+  <div id="toast-success" class="hidden fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-xl shadow-lg text-sm z-[9999]">
+    Sessió iniciada amb èxit!
+  </div>
+
   <!-- CTA flotant -->
-  <button id="cta-float" class="cta-btn" data-modal-target="signupModal" data-modal-toggle="signupModal">✚</button>
+  <button id="cta-float" class="cta-btn fixed bottom-6 right-6 z-50 bg-red-600 text-white w-14 h-14 rounded-full text-3xl flex items-center justify-center shadow-xl cursor-pointer"
+    data-modal-target="signupModal" data-modal-toggle="signupModal" aria-label="Apunta't">✚</button>
 
   <!-- NAV -->
   <nav class="bg-white/80 backdrop-blur sticky top-0 z-50 shadow-sm border-b border-red-100 fade-in">
@@ -61,22 +83,29 @@
         Fes-te donant
       </button>
 
-      <!-- Info de sessió (ocult per defecte) -->
-      <span id="session-info" class="hidden flex items-center gap-3 text-sm">
-        <span id="session-name"></span>
-        <button id="logout-btn" class="text-red-600 underline hover:text-red-700">Tancar sessió</button>
-      </span>
+      <!-- Avatar + sessió -->
+      <div class="flex items-center gap-3">
+        <div id="avatar" class="hidden w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-bold shadow"></div>
+
+        <span id="session-info" class="hidden text-sm items-center gap-3">
+          <span id="session-name"></span>
+          <button id="logout-btn" class="text-red-600 underline hover:text-red-700">Tancar sessió</button>
+        </span>
+      </div>
     </div>
   </nav>
 
   <!-- HERO -->
   <header id="hero" class="bg-gradient-to-b from-white via-red-50/40 to-white py-20 lg:py-28 fade-in">
     <div class="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-12">
+
       <div class="w-full lg:w-1/2">
         <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">
           Sigues el relleu. <span class="text-red-600">Dona sang</span> i salva vides.
         </h1>
-        <p class="mt-6 text-lg text-slate-600">Catalunya necessita donants joves. El futur de les reserves de sang depèn de tu.</p>
+        <p class="mt-6 text-lg text-slate-600">
+          Catalunya necessita donants joves. El futur de les reserves de sang depèn de tu.
+        </p>
 
         <div class="mt-8 flex gap-4 items-center">
           <button data-modal-target="signupModal" data-modal-toggle="signupModal"
@@ -92,41 +121,64 @@
           <img src="hero.png" loading="lazy" alt="Il·lustració donació de sang" class="rounded-2xl w-full h-80 object-cover" />
         </div>
       </div>
+
     </div>
   </header>
 
   <!-- PROBLEMÀTICA -->
   <section id="problem" class="max-w-6xl mx-auto px-4 py-16 fade-in">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
       <div>
         <h2 class="text-3xl font-bold">La problemàtica</h2>
         <p class="mt-4 text-slate-600 leading-relaxed">
-          La mitjana d’edat dels donants està pujant. Les necessitats hospitalàries augmenten i falten joves que garanteixin el relleu generacional.
+          La mitjana d’edat dels donants està pujant. Les necessitats hospitalàries
+          augmenten i falten joves que garanteixin el relleu generacional.
         </p>
+
         <ul class="mt-6 space-y-4">
-          <li class="flex gap-3"><span class="text-red-600 mt-1">●</span><span><strong>Més cirurgies, menys donants:</strong> la demanda creix constantment.</span></li>
-          <li class="flex gap-3"><span class="text-red-600 mt-1">●</span><span><strong>Relleu insuficient:</strong> la franja 18–35 és la menys representada.</span></li>
+          <li class="flex gap-3">
+            <span class="text-red-600 mt-1">●</span>
+            <span><strong>Més cirurgies, menys donants:</strong> la demanda creix constantment.</span>
+          </li>
+
+          <li class="flex gap-3">
+            <span class="text-red-600 mt-1">●</span>
+            <span><strong>Relleu insuficient:</strong> la franja 18–35 és la menys representada.</span>
+          </li>
         </ul>
       </div>
 
       <div class="bg-white p-6 rounded-2xl shadow hover-card">
         <h3 class="font-semibold text-lg">Dades importants</h3>
+
         <div class="grid grid-cols-2 gap-4 mt-4">
-          <div class="p-4 bg-red-50 rounded-xl text-center"><div class="text-3xl font-extrabold text-red-600">+60%</div><p class="text-xs text-slate-500 mt-1">Augment demanda hospitalària</p></div>
-          <div class="p-4 bg-red-50 rounded-xl text-center"><div class="text-3xl font-extrabold text-red-600">28%</div><p class="text-xs text-slate-500 mt-1">Donants joves (18–35)</p></div>
+          <div class="p-4 bg-red-50 rounded-xl text-center">
+            <div class="text-3xl font-extrabold text-red-600">+60%</div>
+            <p class="text-xs text-slate-500 mt-1">Augment demanda hospitalària</p>
+          </div>
+
+          <div class="p-4 bg-red-50 rounded-xl text-center">
+            <div class="text-3xl font-extrabold text-red-600">28%</div>
+            <p class="text-xs text-slate-500 mt-1">Donants joves (18–35)</p>
+          </div>
         </div>
       </div>
+
     </div>
   </section>
 
   <!-- PROCÉS -->
   <section id="proc" class="bg-red-50/40 py-16 fade-in">
     <div class="max-w-6xl mx-auto px-4">
+
       <h2 class="text-3xl font-bold text-center">Com és el procés</h2>
       <p class="text-center text-slate-600 mt-2">Ràpid, segur i senzill.</p>
+
       <div class="mt-10 flex justify-center hover-card">
         <img src="proces.png" loading="lazy" alt="Procés de donació" class="w-full max-w-4xl rounded-xl shadow" />
       </div>
+
     </div>
   </section>
 
@@ -134,6 +186,7 @@
   <section id="benef" class="max-w-6xl mx-auto px-4 py-16 fade-in">
     <h2 class="text-3xl font-bold text-center">Mites i Beneficis</h2>
     <p class="text-center text-slate-600 mt-2">Resolem dubtes i destaquem allò positiu.</p>
+
     <div class="mt-10 flex justify-center hover-card">
       <img src="beneficis.png" loading="lazy" alt="Mites i beneficis donació de sang" class="w-full max-w-4xl rounded-xl shadow" />
     </div>
@@ -144,6 +197,7 @@
     <div class="max-w-6xl mx-auto px-4">
       <h2 class="text-3xl font-bold text-center">Testimonis</h2>
       <p class="text-center text-slate-600 mt-2">Joves que ja donen. Persones reals.</p>
+
       <div class="mt-10 flex justify-center hover-card">
         <img src="testimonis.png" loading="lazy" alt="Testimonis de donants" class="w-full max-w-4xl rounded-xl shadow" />
       </div>
@@ -164,7 +218,7 @@
     </div>
   </section>
 
-  <!-- CTA final footer -->
+  <!-- FOOTER -->
   <footer class="bg-white border-t mt-10 fade-in">
     <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
       <p class="text-sm text-slate-500">© 2025 Relleu Jove — Campanya de donació de sang</p>
@@ -175,91 +229,138 @@
     </div>
   </footer>
 
-  <!-- MODAL INSCRIPCIÓ -->
-  <div id="signupModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 overflow-y-auto overflow-x-hidden fade-in">
-    <div class="flex items-center justify-center min-h-screen px-4">
-      <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-lg relative">
-        <button data-modal-hide="signupModal"
-          class="absolute top-3 right-3 text-slate-400 hover:bg-slate-200 p-1 rounded-lg transition">✕</button>
+  <!-- MODAL INSCRIPCIÓ (Flowbite) -->
+  <div id="signupModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+    <div class="relative p-4 w-full max-w-lg h-full md:h-auto">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow modal-content">
+        <button type="button" class="absolute top-3 right-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="signupModal">
+          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          <span class="sr-only">Tancar</span>
+        </button>
 
-        <h3 class="text-xl font-semibold mb-4">Inscripció ràpida</h3>
+        <div class="px-6 py-6 lg:px-8">
+          <h3 class="text-xl font-medium text-gray-900 mb-4">Inscripció ràpida</h3>
 
-        <div id="signup-status" class="hidden p-2 rounded bg-green-50 text-green-700 text-sm"></div>
+          <div id="signup-status" class="hidden p-2 rounded bg-green-50 text-green-700 text-sm mb-2"></div>
 
-        <form class="space-y-4">
-          <div>
-            <label class="text-sm">Nom complet</label>
-            <input type="text" class="mt-1 w-full border p-2 rounded-lg" required>
-          </div>
-
-          <div>
-            <label class="text-sm">Correu electrònic</label>
-            <input type="email" class="mt-1 w-full border p-2 rounded-lg" required>
-          </div>
-
-          <div class="flex gap-4">
-            <div class="w-1/2">
-              <label class="text-sm">Edat</label>
-              <input type="number" min="18" max="70" class="mt-1 w-full border p-2 rounded-lg" required>
+          <!-- ************************************************ -->
+          <!-- Formulari Flowbite amb validacions visuals -->
+          <!-- ************************************************ -->
+          <form id="signup-form" class="space-y-6">
+            <!-- NOM -->
+            <div>
+              <label for="fullName" class="block mb-2 text-sm font-medium text-gray-900">Nom complet</label>
+              <div class="relative">
+                <input type="text" id="fullName"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5 peer"
+                  required>
+                <p class="mt-1 text-xs text-red-600 hidden" id="error-name">El nom ha de tenir mínim 3 caràcters.</p>
+              </div>
             </div>
-            <div class="w-1/2">
-              <label class="text-sm">Municipi</label>
-              <input type="text" class="mt-1 w-full border p-2 rounded-lg" required>
+
+            <!-- EMAIL -->
+            <div>
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Correu electrònic</label>
+              <div class="relative">
+                <input type="email" id="email"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5 peer"
+                  placeholder="nom@exemple.com" required>
+                <p class="mt-1 text-xs text-red-600 hidden" id="error-email">Introdueix un correu electrònic vàlid.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="flex items-center gap-2">
-            <input type="checkbox" required class="w-4 h-4">
-            <label class="text-sm">Accepto rebre informació sobre punts i horaris.</label>
-          </div>
+            <!-- EDAT + MUNICIPI -->
+            <div class="flex gap-4">
+              <div class="w-1/2">
+                <label for="age" class="block mb-2 text-sm font-medium text-gray-900">Edat</label>
+                <input type="number" id="age" min="18" max="70"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5"
+                  required>
+                <p class="mt-1 text-xs text-red-600 hidden" id="error-age">L’edat ha d'estar entre 18 i 70 anys.</p>
+              </div>
 
-          <div class="flex gap-3 pt-2">
-            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition">Enviar</button>
-            <button data-modal-hide="signupModal" type="button" class="px-4 py-2 border rounded-full hover:bg-slate-100 transition">Tancar</button>
-          </div>
-        </form>
+              <div class="w-1/2">
+                <label for="city" class="block mb-2 text-sm font-medium text-gray-900">Municipi</label>
+                <input type="text" id="city"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5"
+                  required>
+                <p class="mt-1 text-xs text-red-600 hidden" id="error-city">El municipi ha de tenir mínim 2 caràcters.</p>
+              </div>
+            </div>
 
+            <!-- CHECKBOX -->
+            <div class="flex items-center gap-2">
+              <input id="accept" type="checkbox"
+                class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500">
+              <label for="accept" class="text-sm text-gray-900">Accepto rebre informació sobre punts i horaris.</label>
+            </div>
+            <p class="mt-1 text-xs text-red-600 hidden" id="error-accept">Has d'acceptar la política.</p>
+
+            <!-- BOTONS -->
+            <div class="flex gap-3 pt-2">
+              <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition w-full">Enviar</button>
+              <button data-modal-hide="signupModal" type="button" class="px-4 py-2 border rounded-full hover:bg-slate-100 transition w-full">Tancar</button>
+            </div>
+          </form>
+          <!-- ************************************************ -->
+          <!-- Fi formulari -->
+          <!-- ************************************************ -->
+
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- JS: Fade-in animacions i lògica de sessió -->
+  <!-- SCRIPTS -->
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener("DOMContentLoaded", () => {
       // Fade-in observer
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add('show');
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
       }, { threshold: 0.1 });
       document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-      // Helpers
-      function safeGet(id) { return document.getElementById(id); }
+      // Toast
+      function showToast(msg) {
+        const t = document.getElementById("toast-success");
+        t.textContent = msg;
+        t.classList.remove("hidden");
+        t.style.opacity = "1";
+        setTimeout(() => {
+          t.style.opacity = "0";
+          setTimeout(() => t.classList.add("hidden"), 300);
+        }, 2000);
+      }
 
-      // Update UI according to session
+      // Update UI / session
       function updateUI() {
         const users = JSON.parse(localStorage.getItem('rj_users') || '{}');
         const loggedEmail = localStorage.getItem('rj_logged');
-
-        const donateBtn = safeGet('donate-btn');
-        const ctaBtns = document.querySelectorAll('.cta-btn');
-        const floatBtn = safeGet('cta-float');
-        const sessionInfo = safeGet('session-info');
-        const sessionName = safeGet('session-name');
-
         const loggedUser = loggedEmail && users[loggedEmail] ? users[loggedEmail] : null;
 
+        const donateBtn = document.getElementById('donate-btn');
+        const ctaBtns = document.querySelectorAll('.cta-btn');
+        const floatBtn = document.getElementById('cta-float');
+        const sessionInfo = document.getElementById('session-info');
+        const sessionName = document.getElementById('session-name');
+        const avatar = document.getElementById('avatar');
+
         if (loggedUser) {
-          if (sessionInfo) {
-            sessionInfo.classList.remove('hidden');
-            sessionInfo.classList.add('flex');
-            sessionName.textContent = "Hola, " + loggedUser.name + " 👋";
-          }
+          // avatar initials
+          const initials = loggedUser.name.split(' ').map(p => p[0] || '').join('').slice(0,2).toUpperCase();
+          avatar.textContent = initials;
+          avatar.classList.remove('hidden');
+
+          // show session
+          if (sessionInfo) sessionInfo.classList.remove('hidden');
+          if (sessionName) sessionName.textContent = "Hola, " + loggedUser.name + " 👋";
+
           if (donateBtn) donateBtn.classList.add('hidden');
           if (floatBtn) floatBtn.classList.add('hidden');
           ctaBtns.forEach(b => b.classList.add('hidden'));
         } else {
+          avatar.classList.add('hidden');
           if (sessionInfo) sessionInfo.classList.add('hidden');
           if (donateBtn) donateBtn.classList.remove('hidden');
           if (floatBtn) floatBtn.classList.remove('hidden');
@@ -267,20 +368,105 @@
         }
       }
 
-      // Form handling
-      const signupForm = document.querySelector('#signupModal form');
+      // ********** VALIDACIONS VISUALS (Flowbite-style) **********
+      function validateForm() {
+        let valid = true;
+
+        // NOM
+        const name = document.getElementById("fullName");
+        const errName = document.getElementById("error-name");
+        if (!name.value || name.value.trim().length < 3) {
+          name.classList.add("border-error");
+          errName.classList.remove("hidden");
+          valid = false;
+        } else {
+          name.classList.remove("border-error");
+          errName.classList.add("hidden");
+        }
+
+        // EMAIL
+        const email = document.getElementById("email");
+        const errEmail = document.getElementById("error-email");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.value || !emailRegex.test(email.value.trim())) {
+          email.classList.add("border-error");
+          errEmail.classList.remove("hidden");
+          valid = false;
+        } else {
+          email.classList.remove("border-error");
+          errEmail.classList.add("hidden");
+        }
+
+        // EDAT
+        const age = document.getElementById("age");
+        const errAge = document.getElementById("error-age");
+        const ageVal = Number(age.value);
+        if (!age.value || ageVal < 18 || ageVal > 70) {
+          age.classList.add("border-error");
+          errAge.classList.remove("hidden");
+          valid = false;
+        } else {
+          age.classList.remove("border-error");
+          errAge.classList.add("hidden");
+        }
+
+        // MUNICIPI
+        const city = document.getElementById("city");
+        const errCity = document.getElementById("error-city");
+        if (!city.value || city.value.trim().length < 2) {
+          city.classList.add("border-error");
+          errCity.classList.remove("hidden");
+          valid = false;
+        } else {
+          city.classList.remove("border-error");
+          errCity.classList.add("hidden");
+        }
+
+        // CHECKBOX
+        const accept = document.getElementById("accept");
+        const errAccept = document.getElementById("error-accept");
+        if (!accept.checked) {
+          errAccept.classList.remove("hidden");
+          valid = false;
+        } else {
+          errAccept.classList.add("hidden");
+        }
+
+        return valid;
+      }
+
+      // remove error on input
+      ['fullName','email','age','city','accept'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', () => {
+          const err = document.getElementById('error-' + (id === 'fullName' ? 'name' : id));
+          el.classList.remove('border-error');
+          if (err) err.classList.add('hidden');
+        });
+        if (el.type === 'checkbox') {
+          el.addEventListener('change', () => {
+            const err = document.getElementById('error-accept');
+            if (err) err.classList.add('hidden');
+          });
+        }
+      });
+
+      // Handle form submit (simulat) with validation
+      const signupForm = document.getElementById('signup-form');
       if (signupForm) {
-        signupForm.addEventListener('submit', function (e) {
+        signupForm.addEventListener('submit', function(e) {
           e.preventDefault();
 
-          const name = signupForm.querySelector('input[type="text"]').value.trim();
-          const email = signupForm.querySelector('input[type="email"]').value.trim().toLowerCase();
-
-          if (!name || !email) {
-            const sb = safeGet('signup-status');
-            if (sb) { sb.textContent = "Omple el nom i correu."; sb.classList.remove('hidden'); }
+          // validate
+          if (!validateForm()) {
             return;
           }
+
+          const name = document.getElementById('fullName').value.trim();
+          const email = document.getElementById('email').value.trim().toLowerCase();
+
+          const statusBox = document.getElementById('signup-status');
 
           const users = JSON.parse(localStorage.getItem('rj_users') || '{}');
           let message = "";
@@ -295,32 +481,36 @@
           localStorage.setItem('rj_users', JSON.stringify(users));
           localStorage.setItem('rj_logged', email);
 
-          const statusBox = safeGet('signup-status');
-          if (statusBox) {
-            statusBox.textContent = message;
-            statusBox.classList.remove('hidden');
-          }
+          if (statusBox) { statusBox.textContent = message; statusBox.classList.remove('hidden'); }
 
+          // feedback toast
+          showToast(message);
+
+          // Close modal via Flowbite button inside (simulate click)
+          const hideBtn = document.querySelector('#signupModal [data-modal-hide="signupModal"]');
+          if (hideBtn) hideBtn.click();
+          // fallback hide
           setTimeout(() => {
-            const hideBtn = document.querySelector('[data-modal-hide="signupModal"]');
-            if (hideBtn) hideBtn.click();
-            if (statusBox) statusBox.classList.add('hidden');
-            signupForm.reset();
-            updateUI();
-          }, 1400);
+            const modal = document.getElementById('signupModal');
+            if (modal) modal.classList.add('hidden');
+          }, 400);
+
+          signupForm.reset();
+          updateUI();
         });
       }
 
       // Logout
-      const logoutBtn = safeGet('logout-btn');
+      const logoutBtn = document.getElementById('logout-btn');
       if (logoutBtn) {
-        logoutBtn.addEventListener('click', function () {
+        logoutBtn.addEventListener('click', (e) => {
+          e.preventDefault();
           localStorage.removeItem('rj_logged');
           updateUI();
         });
       }
 
-      // Inicialitza UI
+      // Init
       updateUI();
     });
   </script>
@@ -347,5 +537,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
+
 </body>
 </html>
