@@ -41,6 +41,46 @@
       height: 450px;
       border-radius: 16px;
     }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .hover-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Pin personalitzat */
+    .pin-custom {
+      width: 40px;
+      height: 55px;
+      background-image: url('pin-apple-style.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      display: block;
+    }
+
+    /* Map */
+    #map {
+      width: 100%;
+      height: 450px;
+      border-radius: 16px;
+    }
+
+    /* --- FIX: Evitar que el mapa tapi el modal --- */
+    #signupModal {
+      z-index: 9999 !important;
+    }
+
+    .leaflet-container,
+    .leaflet-pane,
+    .leaflet-top,
+    .leaflet-bottom {
+      z-index: 0 !important;
+    }
+  </style>
+
   </style>
 </head>
 
@@ -79,7 +119,8 @@
       <div class="w-full lg:w-1/2">
         <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Sigues el relleu. <span class="text-red-600">Dona
             sang</span> i salva vides.</h1>
-        <p class="mt-6 text-lg text-slate-600">Catalunya necessita el teu gest. El futur de les reserves de sang el podem assegurar entre tots.
+        <p class="mt-6 text-lg text-slate-600">Catalunya necessita el teu gest. El futur de les reserves de sang el
+          podem assegurar entre tots.
         </p>
         <div class="mt-8 flex gap-4">
           <button data-modal-target="signupModal" data-modal-toggle="signupModal"
