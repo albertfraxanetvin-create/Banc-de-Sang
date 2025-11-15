@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ca">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,10 +10,41 @@
   <link rel="stylesheet" href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
   <style>
-    html { scroll-behavior: smooth; }
-    .hover-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .hover-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+  <style>
+    /* PIN ANIMAT (bounce estil Google Maps) */
+    @keyframes pin-bounce {
+      0% {
+        transform: translateY(0);
+      }
+
+      30% {
+        transform: translateY(-6px);
+      }
+
+      60% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .pin-animated {
+      animation: pin-bounce 1.2s infinite ease-in-out;
+    }
   </style>
 </head>
+
 <body class="antialiased text-slate-800 bg-white">
 
   <!-- NAVBAR -->
@@ -20,19 +52,33 @@
     <div class="max-w-6xl mx-auto px-4">
       <div class="flex items-center justify-between h-16">
         <a href="#hero" class="flex items-center gap-3">
-          <span class="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-red-700 text-white flex items-center justify-center font-bold">✚</span>
+          <span
+            class="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-red-700 text-white flex items-center justify-center font-bold">✚</span>
           <div class="hidden sm:block">
             <div class="text-sm font-semibold">Relleu Jove</div>
             <div class="text-xs text-slate-500">Dona sang · Catalunya</div>
           </div>
         </a>
         <div class="hidden md:flex items-center gap-6 text-sm">
-          <a href="#problem" class="hover:text-red-600">La problemàtica</a>
-          <a href="#proc" class="hover:text-red-600">Com ho fas</a>
-          <a href="#benef" class="hover:text-red-600">Mites i Beneficis</a>
-          <a href="#testi" class="hover:text-red-600">Testimonis</a>
+          <a href="#problem" class="relative group">
+            <span>La problemàtica</span>
+            <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
+          </a>
+          <a href="#proc" class="relative group">
+            <span>Com ho fas</span>
+            <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
+          </a>
+          <a href="#benef" class="relative group">
+            <span>Mites i Beneficis</span>
+            <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
+          </a>
+          <a href="#testi" class="relative group">
+            <span>Testimonis</span>
+            <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
+          </a>
         </div>
-        <button data-modal-target="signupModal" data-modal-toggle="signupModal" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm shadow">Fes-te donant</button>
+        <button data-modal-target="signupModal" data-modal-toggle="signupModal"
+          class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm shadow">Fes-te donant</button>
       </div>
     </div>
   </nav>
@@ -41,15 +87,20 @@
   <header id="hero" class="bg-gradient-to-b from-white via-red-50/50 to-white py-20 lg:py-28">
     <div class="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-12">
       <div class="w-full lg:w-1/2">
-        <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Sigues el relleu. <span class="text-red-600">Dona sang</span> i salva vides.</h1>
-        <p class="mt-6 text-lg text-slate-600">Catalunya necessita donants joves. El futur de les reserves depèn de tu.</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Sigues el relleu. <span class="text-red-600">Dona
+            sang</span> i salva vides.</h1>
+        <p class="mt-6 text-lg text-slate-600">Catalunya necessita donants joves. El futur de les reserves depèn de tu.
+        </p>
         <div class="mt-8 flex gap-4">
-          <button data-modal-target="signupModal" data-modal-toggle="signupModal" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full shadow text-sm font-semibold">Apunta’t ara</button>
+          <button data-modal-target="signupModal" data-modal-toggle="signupModal"
+            class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full shadow text-sm font-semibold">Apunta’t
+            ara</button>
           <a href="#problem" class="underline text-sm text-slate-700">Per què és urgent?</a>
         </div>
       </div>
       <div class="w-full lg:w-1/2">
-        <div class="rounded-3xl shadow-xl bg-white p-4 hover-card"><img src="hero.png" class="rounded-2xl w-full h-80 object-cover" /></div>
+        <div class="rounded-3xl shadow-xl bg-white p-4 hover-card"><img src="hero.png"
+            class="rounded-2xl w-full h-80 object-cover" /></div>
       </div>
     </div>
   </header>
@@ -67,10 +118,18 @@
       </div>
       <div class="space-y-4">
         <div class="bg-white p-4 rounded-2xl shadow hover-card flex justify-between items-center">
-          <div><p class="text-3xl font-extrabold text-red-600">+60%</p><p class="text-xs text-slate-500">Augment demanda hospitalària</p></div><div class="text-3xl">🩺</div>
+          <div>
+            <p class="text-3xl font-extrabold text-red-600">+60%</p>
+            <p class="text-xs text-slate-500">Augment demanda hospitalària</p>
+          </div>
+          <div class="text-3xl">🩺</div>
         </div>
         <div class="bg-white p-4 rounded-2xl shadow hover-card flex justify-between items-center">
-          <div><p class="text-3xl font-extrabold text-red-600">28%</p><p class="text-xs text-slate-500">Donants joves</p></div><div class="text-3xl">👥</div>
+          <div>
+            <p class="text-3xl font-extrabold text-red-600">28%</p>
+            <p class="text-xs text-slate-500">Donants joves</p>
+          </div>
+          <div class="text-3xl">👥</div>
         </div>
       </div>
     </div>
@@ -82,9 +141,18 @@
       <h2 class="text-3xl font-bold">Com és el procés</h2>
       <p class="text-slate-600 mt-2">Ràpid, segur i senzill.</p>
       <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl shadow hover-card"><div class="text-4xl">📝</div><h3 class="font-semibold mt-3">Registre</h3></div>
-        <div class="bg-white p-6 rounded-2xl shadow hover-card"><div class="text-4xl">🩸</div><h3 class="font-semibold mt-3">Extracció</h3></div>
-        <div class="bg-white p-6 rounded-2xl shadow hover-card"><div class="text-4xl">☕</div><h3 class="font-semibold mt-3">Recuperació</h3></div>
+        <div class="bg-white p-6 rounded-2xl shadow hover-card">
+          <div class="text-4xl">📝</div>
+          <h3 class="font-semibold mt-3">Registre</h3>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow hover-card">
+          <div class="text-4xl">🩸</div>
+          <h3 class="font-semibold mt-3">Extracció</h3>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow hover-card">
+          <div class="text-4xl">☕</div>
+          <h3 class="font-semibold mt-3">Recuperació</h3>
+        </div>
       </div>
     </div>
   </section>
@@ -135,7 +203,8 @@
               <div class="flex flex-col md:flex-row h-full items-center justify-center gap-6 p-6">
                 <img src="testimoni1.jpg" class="w-40 h-40 object-cover rounded-full shadow-md border-4 border-white" />
                 <div class="bg-white p-6 rounded-2xl shadow-lg max-w-lg">
-                  <p class="italic">“Vaig decidir donar sang després que una amiga necessités una transfusió urgent.”</p>
+                  <p class="italic">“Vaig decidir donar sang després que una amiga necessités una transfusió urgent.”
+                  </p>
                   <p class="font-semibold mt-4">Anna P. · 19 anys</p>
                 </div>
               </div>
@@ -166,11 +235,13 @@
           </div>
 
           <!-- CONTROLS -->
-          <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4" data-carousel-prev>
+          <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4"
+            data-carousel-prev>
             <span class="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-2xl">‹</span>
           </button>
 
-          <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4" data-carousel-next>
+          <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4"
+            data-carousel-next>
             <span class="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-2xl">›</span>
           </button>
 
@@ -178,17 +249,104 @@
       </div>
     </div>
   </section>
+  <!-- LOCALITZACIONS -->
+  <section id="localitzacions" class="bg-white py-16">
+    <div class="max-w-6xl mx-auto px-4">
+
+      <h2 class="text-3xl font-bold text-center">On pots donar sang</h2>
+      <p class="text-center text-slate-600 mt-2">Consulta els punts més pròxims i selecciona’ls per veure'n els detalls.
+      </p>
+
+      <!-- CARRUSEL -->
+      <div id="centres-carousel" class="relative w-full mt-10" data-carousel="slide" data-carousel-interval="0">
+
+        <div class="relative h-60 overflow-hidden rounded-2xl shadow-lg bg-red-50">
+
+          <!-- Barcelona -->
+          <div class="duration-700" data-carousel-item="active" data-center="clinic">
+            <div class="flex flex-col items-center justify-center h-full p-6 text-center">
+              <h3 class="text-xl font-semibold text-red-700">Hospital Clínic — Barcelona</h3>
+              <p class="text-slate-600 mt-1">Carrer Villarroel 170</p>
+              <span class="mt-3 text-red-600 font-semibold">Obert cada dia</span>
+            </div>
+          </div>
+
+          <!-- Girona -->
+          <div class="hidden duration-700" data-carousel-item data-center="girona">
+            <div class="flex flex-col items-center justify-center h-full p-6 text-center">
+              <h3 class="text-xl font-semibold text-red-700">Centre de Donació — Girona</h3>
+              <p class="text-slate-600 mt-1">Carrer Migdia 85</p>
+              <span class="mt-3 text-red-600 font-semibold">Dl–Ds</span>
+            </div>
+          </div>
+
+          <!-- Lleida -->
+          <div class="hidden duration-700" data-carousel-item data-center="lleida">
+            <div class="flex flex-col items-center justify-center h-full p-6 text-center">
+              <h3 class="text-xl font-semibold text-red-700">Hospital Arnau de Vilanova — Lleida</h3>
+              <p class="text-slate-600 mt-1">Av. Rovira Roure 80</p>
+              <span class="mt-3 text-red-600 font-semibold">Dl–Dv</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Controls -->
+        <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4"
+          data-carousel-prev>
+          <span class="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-2xl">‹</span>
+        </button>
+
+        <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4"
+          data-carousel-next>
+          <span class="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-2xl">›</span>
+        </button>
+
+      </div>
+
+      <!-- MAPA -->
+      <div class="mt-12">
+        <h3 class="text-xl font-bold mb-4 text-center">Mapa de punts de donació</h3>
+
+        <div class="relative rounded-2xl overflow-hidden shadow-xl">
+
+          <!-- IFRAME DEL MAPA -->
+          <iframe id="mapIframe"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2994.10502688131!2d2.154007315420748!3d41.385063979263374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4a2f3e2e1e6fb%3A0xdad99b0401d233d7!2sHospital%20Cl%C3%ADnic!5e0!3m2!1sca!2ses!4v1700000000000"
+            width="100%" height="450" style="border:0;" allowfullscreen></iframe>
+
+          <!-- PIN ANIMAT -->
+          <div id="mapPin"
+            class="pin-animated absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+            <svg width="40" height="40" viewBox="0 0 24 24" class="text-red-600 drop-shadow-xl">
+              <path fill="currentColor"
+                d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7z" />
+            </svg>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 
   <!-- CTA FINAL -->
   <section id="cta-final" class="max-w-6xl mx-auto px-4 py-16">
-    <div class="bg-gradient-to-r from-red-600 to-rose-500 text-white p-10 rounded-3xl shadow-lg flex flex-col lg:flex-row justify-between items-center gap-6">
+    <div
+      class="bg-gradient-to-r from-red-600 to-rose-500 text-white p-10 rounded-3xl shadow-lg flex flex-col lg:flex-row justify-between items-center gap-6">
       <div>
+        <div
+          class="absolute inset-0 opacity-10 bg-[url('https://www.toptal.com/designers/subtlepatterns/uploads/dot-grid.png')]">
+        </div>
+
         <h3 class="text-2xl font-bold">Estàs a un clic de fer la diferència</h3>
         <p class="mt-2">Apunta’t com a donant avui mateix.</p>
       </div>
 
       <div class="flex gap-3">
-        <button data-modal-target="signupModal" data-modal-toggle="signupModal" class="px-6 py-3 bg-white text-red-600 font-semibold rounded-full shadow hover:scale-105 transition">Apunta’m</button>
+        <button data-modal-target="signupModal" data-modal-toggle="signupModal"
+          class="px-6 py-3 bg-white text-red-600 font-semibold rounded-full shadow hover:scale-105 transition">Apunta’m</button>
         <a href="#proc" class="px-4 py-3 rounded-full border border-white/30">Com funciona</a>
       </div>
 
@@ -207,31 +365,41 @@
   </footer>
 
   <!-- MODAL (mantingut) -->
-  <div id="signupModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 w-full h-full">
+  <div id="signupModal" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 w-full h-full">
     <div class="relative p-4 w-full max-w-lg mx-auto h-full md:h-auto">
       <div class="relative bg-white rounded-lg shadow">
-        <button type="button" class="absolute top-3 right-3 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5" data-modal-hide="signupModal">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/></svg>
+        <button type="button"
+          class="absolute top-3 right-3 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5"
+          data-modal-hide="signupModal">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414 5.707 15.707a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
+          </svg>
         </button>
         <div class="px-6 py-6">
           <h3 class="text-xl font-medium text-gray-900 mb-4">Inscripció ràpida</h3>
           <form class="space-y-6">
             <div>
               <label class="block mb-2 text-sm font-medium">Nom complet</label>
-              <input type="text" required minlength="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5" />
+              <input type="text" required minlength="3"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5" />
             </div>
             <div>
               <label class="block mb-2 text-sm font-medium">Correu electrònic</label>
-              <input type="email" required placeholder="nom@exemple.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5" />
+              <input type="email" required placeholder="nom@exemple.com"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-600 block w-full p-2.5" />
             </div>
             <div class="flex gap-4">
               <div class="w-1/2">
                 <label class="block mb-2 text-sm font-medium">Edat</label>
-                <input type="number" min="18" max="70" required class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" />
+                <input type="number" min="18" max="70" required
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" />
               </div>
               <div class="w-1/2">
                 <label class="block mb-2 text-sm font-medium">Municipi</label>
-                <input type="text" required minlength="2" class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" />
+                <input type="text" required minlength="2"
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" />
               </div>
             </div>
             <div class="flex items-center gap-2">
@@ -239,14 +407,45 @@
               <label class="text-sm">Accepto rebre informació sobre punts i horaris.</label>
             </div>
             <div class="flex gap-3 pt-2">
-              <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 w-full">Enviar</button>
-              <button data-modal-hide="signupModal" type="button" class="px-4 py-2 border rounded-full hover:bg-slate-100 w-full">Tancar</button>
+              <button type="submit"
+                class="px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 w-full">Enviar</button>
+              <button data-modal-hide="signupModal" type="button"
+                class="px-4 py-2 border rounded-full hover:bg-slate-100 w-full">Tancar</button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    // Llocs amb coordenades (substituïbles)
+    const locations = {
+      clinic: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2994.10502688131!2d2.154007315420748!3d41.385063979263374!2m3!1f0!2f0!3f0!",
+      girona: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2900.500000!2d2.823!3d41.979!",
+      lleida: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2899.200000!2d0.622!3d41.616!"
+    };
+
+    const iframe = document.getElementById("mapIframe");
+    const items = document.querySelectorAll("[data-carousel-item]");
+
+    // Quan el carrusel canvïi → canvia el mapa
+    items.forEach(item => {
+      const observer = new MutationObserver(() => {
+        if (!item.classList.contains("hidden")) {
+          const id = item.dataset.center;
+          iframe.src = locations[id];
+        }
+      });
+      observer.observe(item, { attributes: true });
+    });
+
+    // Opcional: clic al pin = tornar al primer centre
+    const pin = document.getElementById("mapPin");
+    pin.addEventListener("click", () => {
+      document.querySelector("[data-carousel-prev]").click();
+    });
+  </script>
 
 </body>
+
 </html>
